@@ -1,26 +1,58 @@
 {
-  "name": "react-abs-import",
-  "version": "0.1.0",
+  "name": "web-base",
+  "version": "1.0.0",
   "private": true,
+  "description": "Food & Beverage Core",
+  "authors": [
+    "Brian MacDonald <brian.macdonald@verbinteractive.com>"
+  ],
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+    "@babel/runtime": "^7.12.5",
+    "@testing-library/dom": "^7.30.0",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^13.0.1",
+    "airbnb-browser-shims": "^3.3.0",
+    "axios": "^0.21.1",
+    "core-js": "^3.8.2",
+    "env-cmd": "^9.0.3",
+    "es7-object-polyfill": "^1.0.1",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
+    "lodash": "^4.17.21",
+    "node-sass": "^4.14.1",
+    "prop-types": "^15.7.2",
+    "query-string": "^6.14.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.2.2",
+    "react-render-html": "^0.6.0",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^4.0.3",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.3.0",
+    "string-polyfills": "^0.9.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "env-cmd -f .env.production react-scripts build && mv build web-base",
+    "build-dev": "env-cmd -f .env.ua react-scripts build && mv build web-base",
+    "build-ua": "env-cmd -f .env.ua react-scripts build && mv build web-base",
+    "build-stage": "env-cmd -f .env.stage react-scripts build && mv build web-base",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
+    "eject": "react-scripts eject",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write src/**/*.{js,scss,css}",
+    "test:staged": "CI=true react-scripts test --env=jest-environment-jsdom-sixteen"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"
+      "plugin:import/errors",
+      "plugin:import/warnings"
+    ],
+    "ignorePatterns": [
+      "*.test.js"
     ]
   },
   "browserslist": {
@@ -34,5 +66,28 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,scss,css}": "prettier --write",
+    "*.test.js": "npm run test:staged"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.22.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
   }
 }
